@@ -25,7 +25,12 @@ const findThatPig = async (msg) => {
   const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
   const pigGifBufferOne = readFileSync("pig.gif");
   const pigGifBufferTwo = readFileSync("gnome-squeeze.gif");
-  const savedPigGifArray = [pigGifBufferOne, pigGifBufferTwo];
+  const pigGifBufferThree = readFileSync("gnome-vid.mp4");
+  const savedPigGifArray = [
+    pigGifBufferOne,
+    pigGifBufferTwo,
+    pigGifBufferThree,
+  ];
 
   const attachmentPromises = msg.attachments.map((attachment) => {
     // Downloads the message attachments and returns them as buffers
