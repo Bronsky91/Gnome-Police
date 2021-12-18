@@ -28,6 +28,8 @@ const getRandomResponse = () => {
     `This message includes contraband.`,
     `Really? You should know better.`,
     `Oh nein, tust du nicht!`,
+    `Blame Boochie.`,
+    `I'm just following orders.`,
   ];
   const randomIndex = Math.floor(Math.random() * responses.length);
   return responses[randomIndex];
