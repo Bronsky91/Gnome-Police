@@ -10,10 +10,22 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
+const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
+const pigGifBufferOne = readFileSync("pig.gif");
+const pigGifBufferTwo = readFileSync("gnome-squeeze.gif");
+const pigGifBufferThree = readFileSync("gnome-vid.mp4");
+const pigGifBufferFour = readFileSync("gnome-webm.webm");
+const savedPigGifArray = [
+  pigGifBufferOne,
+  pigGifBufferTwo,
+  pigGifBufferThree,
+  pigGifBufferFour,
+];
+
 const getRandomResponse = () => {
   const responses = [
     `Nice Try.`,
-    `That message includes contraband.`,
+    `This message includes contraband.`,
     `Really? You should know better.`,
     `Oh nein, tust du nicht!`,
   ];
@@ -22,16 +34,6 @@ const getRandomResponse = () => {
 };
 
 const findThatPig = async (msg) => {
-  const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
-  const pigGifBufferOne = readFileSync("pig.gif");
-  const pigGifBufferTwo = readFileSync("gnome-squeeze.gif");
-  const pigGifBufferThree = readFileSync("gnome-vid.mp4");
-  const savedPigGifArray = [
-    pigGifBufferOne,
-    pigGifBufferTwo,
-    pigGifBufferThree,
-  ];
-
   const attachmentPromises = msg.attachments.map((attachment) => {
     // Downloads the message attachments and returns them as buffers
     return axios
