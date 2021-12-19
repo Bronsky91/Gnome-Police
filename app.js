@@ -18,13 +18,13 @@ const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
 const getRandomResponse = () => {
   const responses = [
     `Nice Try.`,
-    `This message includes contraband.`,
+    `This message includes contraband and has been confiscated.`,
     `Really? You should know better.`,
     `Oh nein, tust du nicht!`,
     `Blame Boochie.`,
     `I'm just following orders.`,
     `Nothing personal. Well maybe a little bit.`,
-    `For Gnomeregan!`,
+    `WEE WOO WEE WOO`,
   ];
   const randomIndex = Math.floor(Math.random() * responses.length);
   return responses[randomIndex];
@@ -59,12 +59,6 @@ const findThatPig = async (msg) => {
   }
 };
 
-const idiotPatrol = (msg) => {
-  if (msg.content.toLowerCase().includes(`idiot`)) {
-    msg.reply(`That's your one. Tread carefully`);
-  }
-};
-
 discordClient.on("ready", () => {
   console.log(`Logged in as ${discordClient.user.tag}!`);
 });
@@ -72,7 +66,6 @@ discordClient.on("ready", () => {
 discordClient.on("messageCreate", (msg) => {
   findThatPig(msg);
   // ** To be determined what's to come **
-  // idiotPatrol(msg);
 });
 
 discordClient.login(process.env.TOKEN);
