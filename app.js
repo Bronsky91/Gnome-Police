@@ -18,7 +18,7 @@ const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
 const getRandomResponse = () => {
   const responses = [
     `Nice Try.`,
-    `This message includes contraband and has been confiscated.`,
+    `This message includes contraband.`,
     `Really? You should know better.`,
     `Oh nein, tust du nicht!`,
     `Blame Boochie.`,
