@@ -1,26 +1,19 @@
 import dotenv from "dotenv";
 import { Client, Intents } from "discord.js";
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { Buffer } from "buffer";
 import axios from "axios";
 
 dotenv.config();
 
-const client = new Client({
+const discordClient = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
+const savedContrabandFiles = readdirSync("contraband").map((fn) =>
+  readFileSync(`contraband/${fn}`)
+);
 const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
-const pigGifBufferOne = readFileSync("pig.gif");
-const pigGifBufferTwo = readFileSync("gnome-squeeze.gif");
-const pigGifBufferThree = readFileSync("gnome-vid.mp4");
-const pigGifBufferFour = readFileSync("gnome-webm.webm");
-const savedPigGifArray = [
-  pigGifBufferOne,
-  pigGifBufferTwo,
-  pigGifBufferThree,
-  pigGifBufferFour,
-];
 
 const getRandomResponse = () => {
   const responses = [
@@ -30,6 +23,8 @@ const getRandomResponse = () => {
     `Oh nein, tust du nicht!`,
     `Blame Boochie.`,
     `I'm just following orders.`,
+    `Nothing personal. Well maybe a little bit.`,
+    `For Gnomeregan!`,
   ];
   const randomIndex = Math.floor(Math.random() * responses.length);
   return responses[randomIndex];
@@ -45,7 +40,7 @@ const findThatPig = async (msg) => {
   const buffers = await Promise.all(attachmentPromises);
   const pigBufferMatches = buffers.filter((pg) => {
     // Find any buffers that match the saved files
-    return savedPigGifArray.find((spg) => Buffer.compare(spg, pg) === 0);
+    return savedContrabandFiles.find((spg) => Buffer.compare(spg, pg) === 0);
   });
 
   // Find any attachments that have the common names of controband gifs
@@ -70,14 +65,14 @@ const idiotPatrol = (msg) => {
   }
 };
 
-client.on("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+discordClient.on("ready", () => {
+  console.log(`Logged in as ${discordClient.user.tag}!`);
 });
 
-client.on("messageCreate", (msg) => {
+discordClient.on("messageCreate", (msg) => {
   findThatPig(msg);
   // ** To be determined what's to come **
   // idiotPatrol(msg);
 });
 
-client.login(process.env.TOKEN);
+discordClient.login(process.env.TOKEN);
