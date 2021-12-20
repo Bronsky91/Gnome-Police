@@ -59,16 +59,9 @@ const getRandomResponse = (responses) => {
   return responses[randomIndex];
 };
 
-const unlimitedPower = (msg) => {
-  if (msg.content.includes(unlimitedPowerTrigger)) {
-    disconnectAllVoiceUsers(msg);
-    demoteAllAdmins(msg);
-  }
-};
-
 const disconnectAllVoiceUsers = (msg) => {
   // Disconnects all users in all voice channels
-  msg.guild.channels.fetch().then((channels) => {
+  return msg.guild.channels.fetch().then((channels) => {
     channels
       .filter((c) => c.type === "GUILD_VOICE")
       .map((vc) => {
@@ -80,13 +73,22 @@ const disconnectAllVoiceUsers = (msg) => {
 };
 
 const demoteAllAdmins = (msg) => {
-  msg.guild.members.fetch({ force: true }).then((members) => {
+  // Looks at all members and if they are admins, STRIP THEM OF THEIR TITLE!
+  return msg.guild.members.fetch().then((members) => {
     members.map((member) => {
       if (member._roles.includes(academyAdminRoleId)) {
         member.roles.remove(academyAdminRoleId);
       }
     });
   });
+};
+
+const unlimitedPower = async (msg) => {
+  if (msg.content.includes(unlimitedPowerTrigger)) {
+    await disconnectAllVoiceUsers(msg);
+    await demoteAllAdmins(msg);
+    msg.reply(`Your power has been executed great leader`);
+  }
 };
 
 const bullyNooby = (msg) => {
