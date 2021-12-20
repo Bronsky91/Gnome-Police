@@ -84,6 +84,7 @@ const demoteAllAdmins = (msg) => {
   // Looks at all members and if they are admins (except dixie), STRIP THEM OF THEIR TITLE!
   return msg.guild.members.fetch().then((members) => {
     members.map((member) => {
+      // TODO: find the proper adminRoleId
       if (member._roles.includes(adminRoleId) && member.id != dixieId) {
         member.roles.remove(adminRoleId);
       }
@@ -148,30 +149,3 @@ discordClient.on("messageCreate", async (msg) => {
 });
 
 discordClient.login(process.env.TOKEN);
-
-// ** SEEK AND DESTROY FEATURE WIP **
-
-// const seekAndDestroy = (msg) => {};
-// if (
-//   // If Dixie or Bronsky mention Gnome Police
-//   msg.mentions.has(discordClient.user) &&
-//   (msg.author.id === dixieId || msg.author.id == bronskyId)
-// ) {
-//   console.log("listening");
-//   if (msg.content.includes("remove")) {
-//     const contraband = msg.content.substring(
-//       msg.content.indexOf("remove") + "remove".length + 1
-//     );
-//     console.log("contraband", contraband);
-//     msg.channel.messages.fetch({ limit: 100 }).then((messages) => {
-//       const contrabandMessage = messages.find(
-//         (message) =>
-//           message.id !== msg.id && message.content.includes(contraband)
-//       );
-//       if (contrabandMessage) {
-//         contrabandMessage.reply(getRandomResponse(policeGifResponses));
-//         setTimeout(() => contrabandMessage.delete(), 500);
-//       }
-//     });
-//   }
-// }
