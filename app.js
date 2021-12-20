@@ -7,8 +7,15 @@ import axios from "axios";
 dotenv.config();
 
 const discordClient = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+  ],
 });
+// Roles
+const adminRoleId = `705094003279790120`;
+const academyAdminRoleId = `922364543974395925`;
 
 // Mentions
 const nooby = `<@100377761356472320>`;
@@ -27,6 +34,8 @@ const urlContraband = [
 
 // Msg content to watch for
 const bugReports = ["bug report", "bugreport"];
+const unlimitedPowerTrigger =
+  "tenor.com/view/unlimited-power-star-wars-gif-10270127";
 
 // Bot responses
 const policeGifResponses = [
@@ -50,8 +59,38 @@ const getRandomResponse = (responses) => {
   return responses[randomIndex];
 };
 
+const unlimitedPower = (msg) => {
+  if (msg.content.includes(unlimitedPowerTrigger)) {
+    disconnectAllVoiceUsers(msg);
+    demoteAllAdmins(msg);
+  }
+};
+
+const disconnectAllVoiceUsers = (msg) => {
+  // Disconnects all users in all voice channels
+  msg.guild.channels.fetch().then((channels) => {
+    channels
+      .filter((c) => c.type === "GUILD_VOICE")
+      .map((vc) => {
+        vc.members.map((member) => {
+          member.voice.disconnect();
+        });
+      });
+  });
+};
+
+const demoteAllAdmins = (msg) => {
+  msg.guild.members.fetch({ force: true }).then((members) => {
+    members.map((member) => {
+      if (member._roles.includes(academyAdminRoleId)) {
+        member.roles.remove(academyAdminRoleId);
+      }
+    });
+  });
+};
+
 const bullyNooby = (msg) => {
-  if (bugReports.some((br) => msg.content.includes(br))) {
+  if (bugReports.some((br) => msg.content.toLowerCase().includes(br))) {
     msg.channel.send(getRandomResponse(noobyBullyResponses));
   }
 };
@@ -89,10 +128,11 @@ discordClient.on("ready", () => {
   console.log(`Logged in as ${discordClient.user.tag}!`);
 });
 
-discordClient.on("messageCreate", (msg) => {
-  // console.log(msg.mentions.users);
+discordClient.on("messageCreate", async (msg) => {
   findThatPig(msg);
   bullyNooby(msg);
+  // **SOON**
+  // unlimitedPower(msg)
 });
 
 discordClient.login(process.env.TOKEN);
