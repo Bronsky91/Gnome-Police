@@ -13,7 +13,13 @@ const discordClient = new Client({
 const savedContrabandFiles = readdirSync("contraband").map((fn) =>
   readFileSync(`contraband/${fn}`)
 );
-const pigGifUrl = "https://tenor.com/view/gnome-squeeze-hog-gif-13302788";
+const pigGifUrls = [
+  "tenor.com/view/gnome-squeeze-hog-gif-13302788",
+  "imgur.com/a/RKrjRj1",
+  "imgur.com/gallery/0n6toZp",
+  "youtube.com/watch?v=uzseYbdR4dI",
+  "makeagif.com/i/3dg8C9",
+];
 
 const getRandomResponse = () => {
   const responses = [
@@ -51,7 +57,7 @@ const findThatPig = async (msg) => {
   const notAllowed =
     pigs.size !== 0 ||
     pigBufferMatches.length !== 0 ||
-    msg.content.includes(pigGifUrl);
+    pigGifUrls.some((pgu) => msg.content.includes(pgu));
 
   if (notAllowed) {
     msg.reply(getRandomResponse());
