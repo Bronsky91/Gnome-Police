@@ -20,6 +20,9 @@ const academyAdminRoleId = `922364543974395925`;
 // Mentions
 const nooby = `<@100377761356472320>`;
 const dixie = `<@96819678797660160>`;
+// User Ids
+const bronskyId = 146355018092511233;
+const dixieId = 96819678797660160;
 // Contraband
 const savedContrabandFiles = readdirSync("contraband").map((fn) =>
   readFileSync(`contraband/${fn}`)
@@ -65,31 +68,31 @@ const getRandomResponse = (responses) => {
 };
 
 const disconnectAllVoiceUsers = (msg) => {
-  // Disconnects all users in all voice channels
+  // Disconnects all users (except dixie) in all voice channels
   return msg.guild.channels.fetch().then((channels) => {
     channels
       .filter((c) => c.type === "GUILD_VOICE")
       .map((vc) => {
         vc.members.map((member) => {
-          member.voice.disconnect();
+          if (member.id != dixieId) member.voice.disconnect();
         });
       });
   });
 };
 
 const demoteAllAdmins = (msg) => {
-  // Looks at all members and if they are admins, STRIP THEM OF THEIR TITLE!
+  // Looks at all members and if they are admins (except dixie), STRIP THEM OF THEIR TITLE!
   return msg.guild.members.fetch().then((members) => {
     members.map((member) => {
-      if (member._roles.includes(academyAdminRoleId)) {
-        member.roles.remove(academyAdminRoleId);
+      if (member._roles.includes(adminRoleId) && member.id != dixieId) {
+        member.roles.remove(adminRoleId);
       }
     });
   });
 };
 
 const unlimitedPower = async (msg) => {
-  if (msg.content.includes(unlimitedPowerTrigger)) {
+  if (msg.content.includes(unlimitedPowerTrigger) && msg.author.id == dixieId) {
     await disconnectAllVoiceUsers(msg);
     await demoteAllAdmins(msg);
     msg.reply(`Your power has been executed great leader`);
@@ -120,8 +123,6 @@ const findThatPig = async (msg) => {
     msg.attachments.map((attachment) => attachment.name).includes(fnc)
   );
 
-  console.log("pigFileNameMatches", pigFileNameMatches);
-
   const notAllowed =
     pigFileNameMatches ||
     pigBufferMatches.length !== 0 ||
@@ -143,8 +144,34 @@ discordClient.on("messageCreate", async (msg) => {
 
   findThatPig(msg);
   bullyNooby(msg);
-  // **SOON**
-  // unlimitedPower(msg)
+  unlimitedPower(msg);
 });
 
 discordClient.login(process.env.TOKEN);
+
+// ** SEEK AND DESTROY FEATURE WIP **
+
+// const seekAndDestroy = (msg) => {};
+// if (
+//   // If Dixie or Bronsky mention Gnome Police
+//   msg.mentions.has(discordClient.user) &&
+//   (msg.author.id === dixieId || msg.author.id == bronskyId)
+// ) {
+//   console.log("listening");
+//   if (msg.content.includes("remove")) {
+//     const contraband = msg.content.substring(
+//       msg.content.indexOf("remove") + "remove".length + 1
+//     );
+//     console.log("contraband", contraband);
+//     msg.channel.messages.fetch({ limit: 100 }).then((messages) => {
+//       const contrabandMessage = messages.find(
+//         (message) =>
+//           message.id !== msg.id && message.content.includes(contraband)
+//       );
+//       if (contrabandMessage) {
+//         contrabandMessage.reply(getRandomResponse(policeGifResponses));
+//         setTimeout(() => contrabandMessage.delete(), 500);
+//       }
+//     });
+//   }
+// }
