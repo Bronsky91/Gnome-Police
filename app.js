@@ -31,6 +31,11 @@ const urlContraband = [
   "youtube.com/watch?v=uzseYbdR4dI",
   "makeagif.com/i/3dg8C9",
 ];
+const fileNameContraband = [
+  "pig.gif",
+  "gnome-squeeze.gif",
+  ...[...Array(21).keys()].map((i) => `take${i}.gif`),
+];
 
 // Msg content to watch for
 const bugReports = ["bug report", "bugreport"];
@@ -111,12 +116,14 @@ const findThatPig = async (msg) => {
   });
 
   // Find any attachments that have the common names of controband gifs
-  const pigs = msg.attachments.filter(
-    (a) => a.name === "pig.gif" || a.name === "gnome-squeeze.gif"
+  const pigFileNameMatches = fileNameContraband.some((fnc) =>
+    msg.attachments.map((attachment) => attachment.name).includes(fnc)
   );
 
+  console.log("pigFileNameMatches", pigFileNameMatches);
+
   const notAllowed =
-    pigs.size !== 0 ||
+    pigFileNameMatches ||
     pigBufferMatches.length !== 0 ||
     urlContraband.some((pgu) => msg.content.includes(pgu));
 
@@ -131,6 +138,9 @@ discordClient.on("ready", () => {
 });
 
 discordClient.on("messageCreate", async (msg) => {
+  // Prevent bot from reacting to itself
+  if (msg.author.id === discordClient.user.id) return;
+
   findThatPig(msg);
   bullyNooby(msg);
   // **SOON**
