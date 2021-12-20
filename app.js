@@ -12,7 +12,7 @@ const discordClient = new Client({
 
 // Mentions
 const nooby = `<@100377761356472320>`;
-
+const dixie = `<@96819678797660160>`;
 // Contraband
 const savedContrabandFiles = readdirSync("contraband").map((fn) =>
   readFileSync(`contraband/${fn}`)
@@ -41,7 +41,7 @@ const policeGifResponses = [
 ];
 const noobyBullyResponses = [
   `Comrade ${nooby}, please get your shit together before our great leader angers.`,
-  `By decree of the great leader, ${nooby} fix your little bot.`,
+  `By decree of the great leader, fix your little bot ${nooby}.`,
   `Comrade ${nooby}, if you must name your bot after our great leader, at least make sure it works.`,
 ];
 
@@ -90,6 +90,7 @@ discordClient.on("ready", () => {
 });
 
 discordClient.on("messageCreate", (msg) => {
+  // console.log(msg.mentions.users);
   findThatPig(msg);
   bullyNooby(msg);
 });
