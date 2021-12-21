@@ -42,6 +42,14 @@ const fileNameContraband = [
 
 // Msg content to watch for
 const bugReports = ["bug report", "bugreport"];
+const boochieAndMenWarnings = [
+  "boochie and men",
+  "boochie & men",
+  "boochie&men",
+  "boochieandmen",
+  "booch and men",
+  "booch & men",
+];
 const unlimitedPowerTrigger =
   "tenor.com/view/unlimited-power-star-wars-gif-10270127";
 
@@ -65,6 +73,15 @@ const dixiePraiseResponses = [
   `Let us praise our great leader!`,
   `Hallowed be thy name!`,
   `Praise our great leader and his totally clean and not at all gross butthole!`,
+];
+const antiBoochieAndMenResponses = [
+  `I hear Boochie and Men is such a toxic server.`,
+  `I wouldn't be caught dead in Boochie and Men`,
+  `Boochie and men? You mean that lame server full of weebs?`,
+  `Luckily **the Great Council** _cough_ Dixie _cough_ convinced us to keep away from Boochie and Men!`,
+  `I sure do love it here in Dixie & Men!`,
+  `I hear Boochie and Men is run by a horrbile dicator that uses Gamer words non-stop!`,
+  `Say it with me! **Dixie & Men for life!**`,
 ];
 
 const getRandomResponse = (responses) => {
@@ -117,6 +134,14 @@ const praiseDixie = (msg) => {
   }
 };
 
+const antiBoochieAndMen = (msg) => {
+  if (
+    boochieAndMenWarnings.some((bmw) => msg.content.toLowerCase().includes(bmw))
+  ) {
+    msg.channel.send(getRandomResponse(antiBoochieAndMenResponses));
+  }
+};
+
 const findThatPig = async (msg) => {
   const attachmentPromises = msg.attachments.map((attachment) => {
     // Downloads the message attachments and returns them as buffers
@@ -155,6 +180,7 @@ discordClient.on("messageCreate", async (msg) => {
   if (msg.author.id === discordClient.user.id) return;
 
   praiseDixie(msg);
+  antiBoochieAndMen(msg);
   findThatPig(msg);
   bullyNooby(msg);
 
