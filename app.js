@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Client, Intents } from "discord.js";
+import { Client, Intents, Message } from "discord.js";
 import { readFileSync, readdirSync } from "fs";
 import { Buffer } from "buffer";
 import axios from "axios";
@@ -61,6 +61,11 @@ const noobyBullyResponses = [
   `By decree of the great leader, fix your little bot ${nooby}.`,
   `Comrade ${nooby}, if you must name your bot after our great leader, at least make sure it works.`,
 ];
+const dixiePraiseResponses = [
+  `Let us praise our great leader!`,
+  `Hallowed be thy name!`,
+  `Praise our great leader and his totally clean and not at all gross butthole!`,
+];
 
 const getRandomResponse = (responses) => {
   const randomIndex = Math.floor(Math.random() * responses.length);
@@ -106,6 +111,12 @@ const bullyNooby = (msg) => {
   }
 };
 
+const praiseDixie = (msg) => {
+  if (msg.mentions.users.some((user) => user.id == dixieId)) {
+    msg.channel.send(getRandomResponse(dixiePraiseResponses));
+  }
+};
+
 const findThatPig = async (msg) => {
   const attachmentPromises = msg.attachments.map((attachment) => {
     // Downloads the message attachments and returns them as buffers
@@ -143,6 +154,7 @@ discordClient.on("messageCreate", async (msg) => {
   // Prevent bot from reacting to itself
   if (msg.author.id === discordClient.user.id) return;
 
+  praiseDixie(msg);
   findThatPig(msg);
   bullyNooby(msg);
   unlimitedPower(msg);
