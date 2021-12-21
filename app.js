@@ -157,7 +157,9 @@ discordClient.on("messageCreate", async (msg) => {
   praiseDixie(msg);
   findThatPig(msg);
   bullyNooby(msg);
-  unlimitedPower(msg);
+
+  // TODO: Fix or change the unlimited power feature
+  // unlimitedPower(msg);
 });
 
 discordClient.login(process.env.TOKEN);
