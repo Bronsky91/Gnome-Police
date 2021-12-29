@@ -78,6 +78,7 @@ const dixiePraiseResponses = [
 const boochieBullyResponses = [
   `If you're not hatin' on Booch, you're waitin' on Booch`,
   `If you ain't first, you're Booch`,
+  `Where were you... when Boochie hid his asshole?`,
 ];
 const antiBoochieAndMenResponses = [
   `I hear Boochie and Men is such a toxic server.`,
