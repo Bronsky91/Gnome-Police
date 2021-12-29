@@ -80,12 +80,13 @@ const boochieBullyResponses = [
   `If you ain't first, you're Booch`,
   `Where were you... when Boochie hid his asshole?`,
   `https://cdn.discordapp.com/attachments/617072949245116439/925562098736586783/unknown.png`,
+  `https://tenor.com/view/let-us-see-your-butthole-all-gas-no-brakes-show-us-your-butt-show-us-your-ass-show-your-butthole-gif-16817412`,
 ];
 const antiBoochieAndMenResponses = [
   `I hear Boochie and Men is such a toxic server.`,
   `I wouldn't be caught dead in Boochie and Men`,
   `Boochie and men? You mean that lame server full of weebs?`,
-  `Luckily **the Great Council** _cough_ Dixie _cough_ convinced us to keep away from Boochie and Men!`,
+  `Luckily Dixie convinced us all to keep away from Boochie and Men!`,
   `I sure do love it here in Dixie & Men!`,
   `I hear Boochie and Men is run by a horrbile dicator that uses Gamer words non-stop!`,
   `Say it with me! **Dixie & Men for life!**`,
