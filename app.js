@@ -48,6 +48,10 @@ const boochieAndMenWarnings = [
   "boochie & men",
   "boochie&men",
   "boochieandmen",
+  "b & m",
+  "b and m",
+  "b&m",
+  "bandm",
   "booch and men",
   "booch & men",
 ];
@@ -85,7 +89,7 @@ const boochieBullyResponses = [
 const antiBoochieAndMenResponses = [
   `I hear Boochie and Men is such a toxic server.`,
   `I wouldn't be caught dead in Boochie and Men`,
-  `Boochie and men? You mean that lame server full of weebs?`,
+  `Boochie and men? You mean that lame server full of flakes?`,
   `Luckily Dixie convinced us all to keep away from Boochie and Men!`,
   `I sure do love it here in Dixie & Men!`,
   `I hear Boochie and Men is run by a horrbile dicator that uses Gamer words non-stop!`,
