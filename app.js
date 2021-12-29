@@ -23,6 +23,7 @@ const dixie = `<@96819678797660160>`;
 // User Ids
 const bronskyId = 146355018092511233;
 const dixieId = 96819678797660160;
+const boochieId = 237302256972726282;
 // Contraband
 const savedContrabandFiles = readdirSync("contraband").map((fn) =>
   readFileSync(`contraband/${fn}`)
@@ -74,6 +75,9 @@ const dixiePraiseResponses = [
   `Hallowed be thy name!`,
   `Praise our great leader and his totally clean and not at all gross butthole!`,
 ];
+const boochieBullyResponses = [
+  `If you're not hatin' on Booch, you're waitin' on Booch`,
+];
 const antiBoochieAndMenResponses = [
   `I hear Boochie and Men is such a toxic server.`,
   `I wouldn't be caught dead in Boochie and Men`,
@@ -119,6 +123,12 @@ const unlimitedPower = async (msg) => {
     await disconnectAllVoiceUsers(msg);
     await demoteAllAdmins(msg);
     msg.reply(`Your power has been executed great leader`);
+  }
+};
+
+const bullyBochie = (msg) => {
+  if (msg.mentions.users.some((user) => user.id == boochieId)) {
+    msg.channel.send(getRandomResponse(boochieBullyResponses));
   }
 };
 
@@ -179,6 +189,7 @@ discordClient.on("messageCreate", async (msg) => {
   // Prevent bot from reacting to itself
   if (msg.author.id === discordClient.user.id) return;
 
+  bullyBochie(msg); // Soon to be deleted I'm sure
   praiseDixie(msg);
   antiBoochieAndMen(msg);
   findThatPig(msg);
