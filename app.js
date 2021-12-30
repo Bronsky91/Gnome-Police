@@ -198,7 +198,7 @@ discordClient.on("messageCreate", async (msg) => {
   if (msg.author.id === discordClient.user.id) return;
 
   bullyBochie(msg); // Soon to be deleted I'm sure
-  praiseDixie(msg);
+  // praiseDixie(msg);
   antiBoochieAndMen(msg);
   findThatPig(msg);
   bullyNooby(msg);
