@@ -197,7 +197,7 @@ discordClient.on("messageCreate", async (msg) => {
   // Prevent bot from reacting to itself
   if (msg.author.id === discordClient.user.id) return;
 
-  bullyBochie(msg); // Soon to be deleted I'm sure
+  // bullyBochie(msg); // Soon to be deleted I'm sure
   // praiseDixie(msg);
   antiBoochieAndMen(msg);
   findThatPig(msg);
