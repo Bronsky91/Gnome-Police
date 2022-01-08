@@ -69,6 +69,12 @@ const policeGifResponses = [
   `Nothing personal. Well maybe a little bit.`,
   `WEE WOO WEE WOO`,
 ];
+const policeGifReposonseFromBot = [
+  `Um... Do you think might be time for a shower my lord?`,
+  `Not to overstep... but perhaps a shower is in order?`,
+  `No need to be rude DixieBot, the great leader will surely shower soon! ...Right?`,
+  `You know what they say! Cleanliness is next to godliness!`,
+];
 const noobyBullyResponses = [
   `Comrade ${nooby}, please get your shit together before our great leader angers.`,
   `By decree of the great leader, fix your little bot ${nooby}.`,
@@ -184,7 +190,11 @@ const findThatPig = async (msg) => {
     urlContraband.some((pgu) => msg.content.includes(pgu));
 
   if (notAllowed) {
-    msg.reply(getRandomResponse(policeGifResponses));
+    if (msg.author.bot) {
+      msg.reply(getRandomResponse(policeGifReposonseFromBot));
+    } else {
+      msg.reply(getRandomResponse(policeGifResponses));
+    }
     setTimeout(() => msg.delete(), 500);
   }
 };
