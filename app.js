@@ -191,7 +191,9 @@ const findThatPig = async (msg) => {
 
   if (notAllowed) {
     if (msg.author.bot) {
-      msg.reply(getRandomResponse(policeGifReposonseFromBot));
+      msg.reply(
+        getRandomResponse([...policeGifReposonseFromBot, ...policeGifResponses])
+      );
     } else {
       msg.reply(getRandomResponse(policeGifResponses));
     }
