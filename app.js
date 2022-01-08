@@ -70,8 +70,8 @@ const policeGifResponses = [
   `WEE WOO WEE WOO`,
 ];
 const policeGifReposonseFromBot = [
-  `Um... Do you think might be time for a shower my lord?`,
-  `Not to overstep... but perhaps a shower is in order?`,
+  `Um... Don't you think it might be time for a shower my lord?`,
+  `Not to overstep... but perhaps a shower is in order sir?`,
   `No need to be rude DixieBot, the great leader will surely shower soon! ...Right?`,
   `You know what they say! Cleanliness is next to godliness!`,
 ];
