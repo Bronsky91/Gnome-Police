@@ -59,6 +59,13 @@ const unlimitedPowerTrigger =
   "tenor.com/view/unlimited-power-star-wars-gif-10270127";
 
 // Bot responses
+const proYoshiResponses = [
+  `#istandwithyoshi`,
+  `Bring Yoshi back!`,
+  `Viva la revolution!`,
+  `I always liked this gif`,
+];
+const proYoshiResponsesFromBot = [`Take a shower disgusting Yoshi-kicker`];
 const policeGifResponses = [
   `Nice Try.`,
   `This message includes contraband.`,
@@ -192,10 +199,12 @@ const findThatPig = async (msg) => {
   if (notAllowed) {
     if (msg.author.bot) {
       msg.reply(
-        getRandomResponse([...policeGifReposonseFromBot, ...policeGifResponses])
+        // getRandomResponse([...policeGifReposonseFromBot, ...policeGifResponses])
+        getRandomResponse([...proYoshiResponses, ...proYoshiResponsesFromBot])
       );
     } else {
-      msg.reply(getRandomResponse(policeGifResponses));
+      // msg.reply(getRandomResponse(policeGifResponses));
+      msg.reply(getRandomResponse(proYoshiResponses));
     }
     setTimeout(() => msg.delete(), 500);
   }
