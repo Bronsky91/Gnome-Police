@@ -220,9 +220,9 @@ discordClient.on("messageCreate", async (msg) => {
 
   // bullyBochie(msg); // Soon to be deleted I'm sure
   // praiseDixie(msg);
-  antiBoochieAndMen(msg);
+  // antiBoochieAndMen(msg);
   findThatPig(msg);
-  bullyNooby(msg);
+  // bullyNooby(msg);
 
   // TODO: Fix or change the unlimited power feature
   // unlimitedPower(msg);
