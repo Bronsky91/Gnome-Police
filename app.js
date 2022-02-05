@@ -206,7 +206,7 @@ const findThatPig = async (msg) => {
       // msg.reply(getRandomResponse(policeGifResponses));
       msg.reply(getRandomResponse(proYoshiResponses));
     }
-    setTimeout(() => msg.delete(), 500);
+    // setTimeout(() => msg.delete(), 500);
   }
 };
 
