@@ -20,7 +20,7 @@ const discordClient = new Client({
 const adminRoleId = `705094003279790120`;
 const HOTS = "1004903824856719430";
 
-const intros = [`Pardon me sir,`, `I don't mean to interrupt, but`];
+const intros = [`Pardon me sir,`];
 
 const hotsOutros = [
   `_Let the self hatred commence!_`,
