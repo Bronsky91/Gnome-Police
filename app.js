@@ -20,7 +20,7 @@ const discordClient = new Client({
 const adminRoleId = `705094003279790120`;
 const HOTS = "1004903824856719430";
 
-const intros = [`Pardon me sir,`];
+const intros = [`Pardon me sir,`, `I don't mean to interrupt, but`];
 
 const hotsOutros = [
   `_Let the self hatred commence!_`,
@@ -35,6 +35,13 @@ const yourWelcomes = [
   `Tis my duty`,
   `I live to serve`,
   `My pleasure`,
+];
+
+const gotToldOff = [
+  `Very well sir.`,
+  `You're the boss.`,
+  `Of course.`,
+  `My apologies`,
 ];
 
 const introductions = [
@@ -59,6 +66,7 @@ const dmHotsPlayers = async (msg) => {
     try {
       const role = await msg.guild.roles.fetch(HOTS);
       role.members.map((user) => {
+        // Only message if the user isn't in a voice channel already
         if (!user.voice.channelId) {
           user.send(
             `${getRandomText(intros)} it appears that **${
@@ -89,12 +97,14 @@ discordClient.on("messageCreate", async (msg) => {
       sendMsg(msg, getRandomText(introductions));
   }
 
-  // Thank you DMS
-  if (
-    msg.channel.type === "DM" &&
-    msg.content.toLowerCase().match(/(thanks)|(thx)|(ty)|(thank)/)
-  ) {
-    sendMsg(msg, getRandomText(yourWelcomes));
+  // DMS
+  if (msg.channel.type === "DM") {
+    if (msg.content.toLowerCase().match(/(thanks)|(thx)|(ty)|(thank)/)) {
+      sendMsg(msg, getRandomText(yourWelcomes));
+    }
+    if (msg.content.toLowerCase().match(/(no)|(stop)|(fuck)/)) {
+      sendMsg(msg, getRandomText(gotToldOff));
+    }
   }
 
   // Monitors
