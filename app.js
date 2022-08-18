@@ -13,6 +13,7 @@ const discordClient = new Client({
     Intents.FLAGS.GUILD_MEMBERS,
   ],
 });
+
 // Roles
 const adminRoleId = `705094003279790120`;
 const academyAdminRoleId = `922364543974395925`;
@@ -221,11 +222,11 @@ discordClient.on("messageCreate", async (msg) => {
   // bullyBochie(msg); // Soon to be deleted I'm sure
   // praiseDixie(msg);
   // antiBoochieAndMen(msg);
-  findThatPig(msg);
+  // findThatPig(msg);
   // bullyNooby(msg);
 
   // TODO: Fix or change the unlimited power feature
   // unlimitedPower(msg);
 });
 
-discordClient.login(process.env.TOKEN);
+discordClient.login(process.env.DISCORD_BOT_TOKEN);
