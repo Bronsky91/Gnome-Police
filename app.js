@@ -1,8 +1,13 @@
 import dotenv from "dotenv";
-import { Client, Intents, Message } from "discord.js";
+import { Client, Intents } from "discord.js";
 import { readFileSync, readdirSync } from "fs";
 import { Buffer } from "buffer";
 import axios from "axios";
+import {
+  dmHotsPlayers,
+  hotsPlayerResponded,
+  userInHotsWaitList,
+} from "./hots.js";
 
 dotenv.config();
 
@@ -17,19 +22,13 @@ const discordClient = new Client({
 });
 
 // Roles
-const adminRoleId = `705094003279790120`;
-const HOTS = "1004903824856719430";
+export const adminRoleId = `705094003279790120`;
+// export const HOTS = "1004903824856719430";
+export const HOTS = "1009679972459352104";
 
-const intros = [`Pardon me sir,`];
+export const intros = [`Pardon me sir,`, `If I may,`];
 
-const hotsOutros = [
-  `_Let the self hatred commence!_`,
-  `_Wouldn't be my choice..._`,
-  `_ARAM again I'm sure_`,
-  `_Don't forget to update._`,
-];
-
-const yourWelcomes = [
+export const yourWelcomes = [
   `But of course, sir`,
   `Don't mention it`,
   `Tis my duty`,
@@ -37,14 +36,14 @@ const yourWelcomes = [
   `My pleasure`,
 ];
 
-const gotToldOff = [
+export const gotToldOff = [
   `Very well sir.`,
   `You're the boss.`,
   `Of course.`,
   `My apologies`,
 ];
 
-const introductions = [
+export const introductions = [
   `At your service!`,
   `I live to serve.`,
   `How may I help?`,
@@ -52,35 +51,17 @@ const introductions = [
   `You rang?`,
 ];
 
-const getRandomText = (textArray) => {
+export const getRandomText = (textArray) => {
   const randomIndex = Math.floor(Math.random() * textArray.length);
   return textArray[randomIndex];
 };
 
-const sendMsg = (msg, text) => {
+export const sendMsg = (msg, text) => {
   msg.channel.send(text);
 };
 
-const dmHotsPlayers = async (msg) => {
-  if (msg.mentions.roles.map((r) => r.id).includes(HOTS)) {
-    try {
-      const role = await msg.guild.roles.fetch(HOTS);
-      role.members.map((user) => {
-        // Only message if the user isn't in a voice channel already
-        if (!user.voice.channelId) {
-          user.send(
-            `${getRandomText(intros)} it appears that **${
-              msg.author.username
-            }** is requesting your presence for a HOTS game. ${getRandomText(
-              hotsOutros
-            )}`
-          );
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
+export const sendMsgToChannel = (channelId, text) => {
+  discordClient.channels.fetch(channelId).then((channel) => channel.send(text));
 };
 
 discordClient.on("ready", () => {
@@ -99,11 +80,15 @@ discordClient.on("messageCreate", async (msg) => {
 
   // DMS
   if (msg.channel.type === "DM") {
-    if (msg.content.toLowerCase().match(/(thanks)|(thx)|(ty)|(thank)/)) {
-      sendMsg(msg, getRandomText(yourWelcomes));
-    }
-    if (msg.content.toLowerCase().match(/(no)|(stop)|(fuck)/)) {
-      sendMsg(msg, getRandomText(gotToldOff));
+    if (userInHotsWaitList(msg)) {
+      hotsPlayerResponded(msg);
+    } else {
+      if (msg.content.toLowerCase().match(/(thanks)|(thx)|(ty)|(thank)/)) {
+        sendMsg(msg, getRandomText(yourWelcomes));
+      }
+      if (msg.content.toLowerCase().match(/(stop)|(fuck)/)) {
+        sendMsg(msg, getRandomText(gotToldOff));
+      }
     }
   }
 
