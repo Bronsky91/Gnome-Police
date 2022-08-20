@@ -1,8 +1,5 @@
 import dotenv from "dotenv";
 import { Client, Intents } from "discord.js";
-import { readFileSync, readdirSync } from "fs";
-import { Buffer } from "buffer";
-import axios from "axios";
 import {
   dmHotsPlayers,
   hotsPlayerResponded,
@@ -23,8 +20,8 @@ const discordClient = new Client({
 
 // Roles
 export const adminRoleId = `705094003279790120`;
-// export const HOTS = "1004903824856719430";
-export const HOTS = "1009679972459352104";
+export const HOTS = "1004903824856719430";
+// export const HOTS = "1009679972459352104";
 
 export const intros = [`Pardon me sir,`, `If I may,`];
 

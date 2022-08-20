@@ -31,11 +31,11 @@ export const dmHotsPlayers = async (msg) => {
     channelPostedIn = msg.channelId;
     try {
       const role = await msg.guild.roles.fetch(HOTS);
-      role.members.map((user) => {
-        // Only message if the user isn't in a voice channel already
-        if (!user.voice.channelId) {
-          // Send user a DM
-          user.send(
+      role.members.map((member) => {
+        // Only message if the member isn't in a voice channel already
+        if (!member.voice.channelId) {
+          // Send member a DM
+          member.send(
             `${getRandomText(intros)} it appears that **${
               msg.author.username
             }** is requesting your presence for a HOTS game. ${getRandomText(
@@ -43,10 +43,10 @@ export const dmHotsPlayers = async (msg) => {
             )}\nShall I tell them you're attending? (**y**/**n**)`
           );
           // Add them to the current list of players
-          hotsWaitList.push(user.user.username);
+          hotsWaitList.push(member.user.username);
         }
       });
-      currentTimeoutID = clearPlayerListTimeout();
+      currentTimeoutID = clearPlayerListTimeout(role.members);
     } catch (err) {
       console.error(err);
     }
@@ -61,24 +61,25 @@ export const hotsPlayerResponded = (msg) => {
     msg.content.toLowerCase().match(/(yes)|(ya)|(yeah)/)
   ) {
     // Confirmed
-    sendMsg(msg, `I'll let them know of your arrival`);
-    sendMsgToChannel(
-      channelPostedIn,
-      `Master ${msg.author.username} will be attending!`
-    );
+    hotsPlayerAgreed(msg);
   } else {
     // Denied
-    sendMsg(msg, `You don't have to be a dick about it`);
-    sendMsgToChannel(
-      channelPostedIn,
-      `Master ${msg.author.username} has declined.`
-    );
+    hotsPlayerDeclined(msg);
   }
 };
 
-const hotsPlayerAgreed = (msg) => {};
+const hotsPlayerAgreed = (msg) => {
+  sendMsg(msg, `I'll let them know of your arrival`);
+  sendMsgToChannel(
+    channelPostedIn,
+    `**${msg.author.username}** will be attending!`
+  );
+};
 
-const hotsPlayerDeclined = (msg) => {};
+const hotsPlayerDeclined = (msg) => {
+  sendMsg(msg, `You don't have to be a dick about it`);
+  sendMsgToChannel(channelPostedIn, `**${msg.author.username}** has declined.`);
+};
 
 const removeFromWaitlist = (msg) => {
   const index = hotsWaitList.indexOf(msg?.author?.username);
@@ -87,17 +88,26 @@ const removeFromWaitlist = (msg) => {
   }
 };
 
-const clearPlayerListTimeout = () => {
+const clearPlayerListTimeout = (users) => {
   return setTimeout(() => {
     if (hotsWaitList.length > 0) {
       sendMsgToChannel(
         channelPostedIn,
-        `Master${
-          hotsWaitList && hotsWaitList.length > 1 ? "s" : ""
-        } ${hotsWaitList.join(
+        `**${hotsWaitList.join(
           ", "
-        )} has yet to respond to the summons, best to queue without them`
+        )}** has yet to respond to the summons, best to queue without them`
       );
+      users.map((member) => {
+        if (
+          !member.voice.channelId &&
+          hotsWaitList.includes(member.user.username)
+        ) {
+          // Send user a DM
+          member.send(
+            `It's been a while, I'll let them know you won't be attending this HOTS game. _It's for the best really_`
+          );
+        }
+      });
     }
     resetState();
   }, 300000);
