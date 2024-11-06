@@ -78,11 +78,20 @@ async function banGoblinhog() {
 discordClient.on("ready", () => {
   console.log(`Logged in as ${discordClient.user.tag}!`);
 
-  const interval = 300000;
-
   banGoblinhog();
+});
 
-  setInterval(banGoblinhog, interval);
+discordClient.on("guildMemberAdd", (member) => {
+  console.log(`New member joined: ${member.user.username}`);
+
+  if (member.user.username === "goblinhog") {
+    member.ban({
+      reason: "Banned by Gnome Border Patrol. Just following orders.",
+    });
+    console.log("Successfully banned goblinhog.");
+  } else {
+    console.log("Not GoblinHog, entry approved");
+  }
 });
 
 // discordClient.on("ready", () => {
